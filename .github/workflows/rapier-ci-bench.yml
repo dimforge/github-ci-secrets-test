@@ -5,7 +5,10 @@ on:
     branches: [ master ]
   pull_request_target:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
   workflow_dispatch:
+
 
 
 jobs:
@@ -29,7 +32,6 @@ jobs:
           echo "BENCHBOT_OTHER_BACKENDS=true" >> $GITHUB_ENV
       - name: Send 3D bench message
         shell: bash
-        run: curl -u $BENCHBOT_AMQP_USER:$BENCHBOT_AMQP_PASS
-             -i -H "content-type:application/json" -X POST
-             https://$BENCHBOT_AMQP_HOST/api/exchanges/$BENCHBOT_AMQP_VHOST//publish
-            -d'{"properties":{},"routing_key":"benchmark","payload":"{ \"repository\":\"https://github.com/'$BENCHBOT_TARGET_REPO'\", \"branch\":\"'$GITHUB_REF'\", \"commit\":\"'$BENCHBOT_TARGET_COMMIT'\", \"other_backends\":'$BENCHBOT_OTHER_BACKENDS' }","payload_encoding":"string"}'
+        run: |
+          echo https://$BENCHBOT_AMQP_HOST/api/exchanges/$BENCHBOT_AMQP_VHOST//publish
+          echo '{"properties":{},"routing_key":"benchmark","payload":"{ \"repository\":\"https://github.com/'$BENCHBOT_TARGET_REPO'\", \"branch\":\"'$GITHUB_REF'\", \"commit\":\"'$BENCHBOT_TARGET_COMMIT'\", \"other_backends\":'$BENCHBOT_OTHER_BACKENDS' }","payload_encoding":"string"}'
