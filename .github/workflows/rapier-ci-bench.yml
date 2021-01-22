@@ -7,6 +7,7 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+
 jobs:
   send-bench-message:
     env:
@@ -22,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Find commit SHA
-        if: github.head_ref == 'refs/heads/main'
+        if: github.head_ref == ''
         run: |
           echo "BENCHBOT_TARGET_COMMIT=$BENCHBOT_SHA" >> $GITHUB_ENV
           echo "BENCHBOT_OTHER_BACKENDS=true" >> $GITHUB_ENV
